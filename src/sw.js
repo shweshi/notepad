@@ -1,4 +1,4 @@
-var cacheName = 'editpad-v4';
+var cacheName = 'notepad-v1';
 var filesToCache = [
     '/',
     '/index.html',
