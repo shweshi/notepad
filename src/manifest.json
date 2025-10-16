@@ -1,6 +1,6 @@
 {
-  "name": "Editpad",
-  "short_name": "Editpad",
+  "name": "Notepad",
+  "short_name": "Notepad",
   "icons": [
     {
       "src": "images/android-icon-36x36.png",
