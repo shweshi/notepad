@@ -60,17 +60,6 @@ function applyDarkMode() {
 }
 
 function printConsoleArt() {
-  const consoleStr = `
-    ███████ ██████  ██ ████████ ██████   █████  ██████  
-    ██      ██   ██ ██    ██    ██   ██ ██   ██ ██   ██ 
-    █████   ██   ██ ██    ██    ██████  ███████ ██   ██ 
-    ██      ██   ██ ██    ██    ██      ██   ██ ██   ██ 
-    ███████ ██████  ██    ██    ██      ██   ██ ██████  
-                                                        
-                        
-    Github: https://github.com/shweshi/editpad
-
-    Version: 1.0.4
-    `;
+  const consoleStr = `Hello There!`;
   console.log(consoleStr);
 }
