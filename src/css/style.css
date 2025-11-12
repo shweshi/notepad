@@ -44,8 +44,21 @@ body {
     -ms-overflow-style: none;
 }
 
+.tab-list::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: var(--impact-white);
+    border-radius: 10px;
+}
+
 .tab-list::-webkit-scrollbar {
-    height: 6px;
+    width: 4px;
+    background-color: var(--impact-white);
+    border-radius: 10px;
+}
+
+.tab-list::-webkit-scrollbar-thumb {
+    background-color: var(--impact-light-gray);
+    border-radius: 10px;
 }
 
 .tab {
