@@ -27,6 +27,98 @@ body {
     background-color: var(--background-color);
 }
 
+.tabs {
+    display: flex;
+    align-items: center;
+    /* gap: 6px; */
+    padding: 0px 0px;
+    background-color: var(--background-color);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.tab-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    -ms-overflow-style: none;
+}
+
+.tab-list::-webkit-scrollbar {
+    height: 6px;
+}
+
+.tab {
+    width: 200px;
+    min-width: 200px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 24px;
+    border-radius: 0px;
+    background: #cec98d;
+    color: #222;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    white-space: nowrap;
+    justify-content: space-between;
+}
+
+.tab .title {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tab .close {
+    font-weight: 900;
+    opacity: 1;
+    font-size: large;
+}
+
+.tab.active {
+    background: #eee8aa;
+    border-color: rgba(0, 0, 0, 0.15);
+    border: 0px solid rgba(0, 0, 0, 0.06);
+    justify-content: space-between;
+}
+
+.add-tab {
+    background: #cec98d;
+    border: 0px solid rgba(0, 0, 0, 0.06);
+    border-radius: 0px;
+    width: 150px;
+    cursor: pointer;
+    padding: 10px 24px;
+}
+
+.add-tab:hover {
+    background: #eee8aa;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark-mode-topbar.tabs,
+.tabs.dark-mode-topbar {
+    background-color: #1e1e1e !important;
+}
+
+.tabs .tab,
+.tabs .add-tab {
+    color: #444;
+}
+
+.dark-mode-topbar .tab,
+.dark-mode-topbar .add-tab {
+    color: #ece5e5cc;
+    background: #222;
+    border-color: #333;
+}
+
+.dark-mode-topbar .tab.active {
+    background: #121212;
+    border-color: #444;
+}
+
 @media only screen and (max-width: 991px) {
 
     /* This rule applies only to screens smaller than 992px */

@@ -73,6 +73,7 @@
 
 <body text="#000000" topmargin="0" leftmargin="0" rightmargin="0" bottommargin="0" marginheight="0" marginwidth="0">
     <div id="main">
+
         <div id="topbar" class="topbar">
             <div id="toolbar" class="toolbar">
                 <span class="ql-formats">
@@ -158,6 +159,12 @@
                 </label>
             </div>
         </div>
+        <div id="tabs" class="tabs">
+            <div id="tab-list" class="tab-list"></div>
+            <button id="add-tab" class="add-tab" title="New tab">
+                <span>+ New Tab</span>
+            </button>
+        </div>
         <grammarly-editor-plugin>
             <div id="editor" class="editor">
             </div>
@@ -178,6 +185,7 @@
         theme: 'snow',
         placeholder: default_text
     });
+    if (window.initTabs) { window.initTabs(); }
 </script>
 
 <script type="text/javascript">
