@@ -89,11 +89,35 @@ body {
     font-size: large;
 }
 
+.close:hover {
+    color: rgb(243, 98, 98);
+}
+
+.title-input {
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: inherit;
+  font: inherit;
+  color: inherit;
+}
+
+.title-input:focus{
+  outline: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  border-bottom-color: #9ca3af;
+}
+
 .tab.active {
     background: #eee8aa;
     border-color: rgba(0, 0, 0, 0.15);
     border: 0px solid rgba(0, 0, 0, 0.06);
     justify-content: space-between;
+    font-weight: bold;
 }
 
 .add-tab {
@@ -158,6 +182,12 @@ body {
     height: 24px;
     padding: 3px 5px;
     width: 28px;
+}
+
+.tools {
+    margin-right: 3rem;
+    display: flex;
+    text-decoration: none;    
 }
 
 .hidden {

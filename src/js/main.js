@@ -100,9 +100,9 @@ function printConsoleArt() {
     if (typeof quill !== 'undefined') {
       t.html = quill.root.innerHTML;
       var text = quill.getText().trim();
-      var title = text.split("\n")[0] || "Untitled";
-      if (title.length > 30) title = title.slice(0, 30) + "…";
-      t.title = title || t.title || "Untitled";
+      var auto = text.split("\n")[0] || "Untitled";
+      if (auto.length > 30) auto = auto.slice(0, 30) + "…";
+      if (!t.manualTitle) t.title = auto || t.title || "Untitled";
     }
     saveTabs();
   }
@@ -111,7 +111,7 @@ function printConsoleArt() {
 
   function createTab(title, html) {
     var id = (typeof uuid !== 'undefined' && uuid.v4) ? uuid.v4() : (Date.now() + "" + Math.random());
-    var t = { id: id, title: title || "Untitled", html: html || "" };
+    var t = { id: id, title: title || "Untitled", html: html || "", manualTitle: !!title };
     state.tabs.push(t);
     state.activeId = id;
     localStorage.setItem(ACTIVE_TAB_KEY, state.activeId);
@@ -164,6 +164,30 @@ function printConsoleArt() {
       var titleSpan = document.createElement('span');
       titleSpan.className = 'title';
       titleSpan.textContent = t.title || 'Untitled';
+      titleSpan.addEventListener('dblclick', function (e) {
+        e.stopPropagation();
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'title-input';
+        input.value = t.title || 'Untitled';
+        var commit = function (save) {
+          if (!save) { render(); return; }
+          var v = (input.value || '').trim() || 'Untitled';
+          if (v.length > 50) v = v.slice(0, 50);
+          t.title = v;
+          t.manualTitle = true;
+          saveTabs();
+          render();
+        };
+        input.addEventListener('keydown', function (ev) {
+          if (ev.key === 'Enter') commit(true);
+          if (ev.key === 'Escape') commit(false);
+        });
+        input.addEventListener('blur', function () { commit(true); });
+        b.replaceChild(input, titleSpan);
+        input.focus();
+        input.select();
+      });
       var close = document.createElement('span');
       close.className = 'close';
       close.textContent = '×';
