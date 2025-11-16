@@ -157,6 +157,15 @@
                         <line x1="12" y1="3" x2="12" y2="15"></line>
                     </svg>
                 </label>
+                <div class="focus-group">
+                    <button id="focus" class="nav-button tools" onclick="togglePomodoro()" title="Focus (Pomodoro)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 p-1.5 relative z-10 transition-colors ease-out text-gray-500">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <polyline points="12 7 12 12 15 15"></polyline>
+                        </svg>
+                    </button>
+                    <span id="focus-timer" class="focus-timer hidden">25:00</span>
+                </div>
                 <a id="toolkit" class="nav-button tools" href="https://shashi.dev/toolkit" target="_blank">
                     <span>🛠️</span>
                 </a>
@@ -172,6 +181,27 @@
             <div id="editor" class="editor">
             </div>
         </grammarly-editor-plugin>
+
+        <div id="pomodoro-modal" class="pomodoro-modal hidden" aria-hidden="true">
+            <div class="pomodoro-backdrop" onclick="togglePomodoro(false)"></div>
+            <div class="pomodoro-panel" role="dialog" aria-modal="true" aria-labelledby="pomodoro-title">
+                <div class="pomodoro-header">
+                    <div class="pomodoro-title" id="pomodoro-title">Focus</div>
+                    <button class="pomodoro-close" onclick="togglePomodoro(false)" title="Close">×</button>
+                </div>
+                <div class="pomodoro-modes">
+                    <button class="pomodoro-mode" data-mode="focus" onclick="pomodoroSwitch('focus')">Focus</button>
+                    <button class="pomodoro-mode" data-mode="short" onclick="pomodoroSwitch('short')">Short Break</button>
+                    <button class="pomodoro-mode" data-mode="long" onclick="pomodoroSwitch('long')">Long Break</button>
+                </div>
+                <div class="pomodoro-timer" id="pomodoro-timer" onclick="pomodoroEditTimer()">25:00</div>
+                <div class="pomodoro-controls">
+                    <button id="pomodoro-start" class="pomodoro-btn primary" onclick="pomodoroStart()">Start</button>
+                    <button id="pomodoro-pause" class="pomodoro-btn" onclick="pomodoroPause()">Pause</button>
+                    <button class="pomodoro-btn" onclick="pomodoroReset()">Reset</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@grammarly/editor-sdk?clientId=client_NCzASpZ7aSVx5Fm7GLAS7s"></script>

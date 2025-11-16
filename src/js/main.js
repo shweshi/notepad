@@ -229,3 +229,162 @@ function printConsoleArt() {
 
   window.initTabs = initTabs;
 })();
+
+(function(){
+  var pomodoro = {
+    mode: 'focus',
+    durations: { focus: 25*60, short: 5*60, long: 15*60 },
+    remaining: 25*60,
+    interval: null,
+    running: false
+  };
+
+  function formatTime(sec){
+    sec = Math.max(0, Math.floor(sec));
+    var m = Math.floor(sec/60);
+    var s = sec%60;
+    return (m<10?""+m:m)+":"+(s<10?"0"+s:s);
+  }
+
+  function qs(id){ return document.getElementById(id); }
+
+  function updateNavbarTimer(){
+    var badge = document.getElementById('focus-timer');
+    if (!badge) return;
+    if (pomodoro.running){
+      badge.textContent = formatTime(pomodoro.remaining);
+      badge.classList.remove('hidden');
+    } else {
+      badge.classList.add('hidden');
+    }
+  }
+
+  function updateDisplay(){
+    var el = qs('pomodoro-timer');
+    if (el) el.textContent = formatTime(pomodoro.remaining);
+    updateNavbarTimer();
+  }
+
+  function pomodoroEditTimer(){
+    var el = qs('pomodoro-timer');
+    if (!el || el.dataset.editing === '1') return;
+    el.dataset.editing = '1';
+    var origSecs = pomodoro.durations[pomodoro.mode] || pomodoro.remaining;
+    var startVal = formatTime(origSecs);
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.value = startVal;
+    input.style.width = '140px';
+    input.style.fontSize = 'inherit';
+    input.style.fontWeight = 'inherit';
+    input.style.textAlign = 'center';
+    var commit = function(save){
+      delete el.dataset.editing;
+      var newSecs = origSecs;
+      if (save){
+        var v = (input.value || '').trim();
+        var mins = null, secs = 0;
+        if (/^\d+:\d{1,2}$/.test(v)){
+          var parts = v.split(':');
+          mins = parseInt(parts[0], 10);
+          secs = parseInt(parts[1], 10);
+          if (!isFinite(mins) || !isFinite(secs)) mins = null;
+        } else if (/^\d+$/.test(v)){
+          mins = parseInt(v, 10);
+        }
+        if (mins != null){
+          if (mins < 1) mins = 1; if (mins > 180) mins = 180;
+          if (secs < 0) secs = 0; if (secs > 59) secs = 59;
+          newSecs = (mins*60) + secs;
+        }
+      }
+      el.replaceChild(span, input);
+      pomodoro.durations[pomodoro.mode] = newSecs;
+      if (!pomodoro.running){
+        pomodoro.remaining = newSecs;
+      }
+      updateDisplay();
+    };
+    var span = document.createElement('span');
+    span.textContent = el.textContent;
+    el.textContent = '';
+    el.appendChild(input);
+    input.focus();
+    input.select();
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') commit(true);
+      if (e.key === 'Escape') commit(false);
+    });
+    input.addEventListener('blur', function(){ commit(true); });
+  }
+
+  function highlightMode(){
+    var buttons = document.querySelectorAll('.pomodoro-mode');
+    buttons.forEach(function(b){
+      if (b.getAttribute('data-mode') === pomodoro.mode) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+  }
+
+  function tick(){
+    pomodoro.remaining -= 1;
+    updateDisplay();
+    if (pomodoro.remaining <= 0){
+      clearInterval(pomodoro.interval); pomodoro.interval = null; pomodoro.running = false;
+      updateNavbarTimer();
+      try { if (window.Notification && Notification.permission === 'granted') new Notification('Time\'s up!'); } catch(e){}
+      if (document.hidden && typeof document.title === 'string') { var orig = document.title; document.title = '⏰ Time\'s up!'; setTimeout(function(){ document.title = orig; }, 4000); }
+      alert("Time's up!");
+    }
+  }
+
+  function setMode(mode){
+    pomodoro.mode = mode;
+    pomodoro.remaining = pomodoro.durations[mode];
+    updateDisplay();
+    highlightMode();
+  }
+
+  function start(){
+    if (pomodoro.running) return;
+    pomodoro.running = true;
+    updateNavbarTimer();
+    if (!pomodoro.interval) pomodoro.interval = setInterval(tick, 1000);
+  }
+
+  function pause(){
+    pomodoro.running = false;
+    if (pomodoro.interval){ clearInterval(pomodoro.interval); pomodoro.interval = null; }
+    updateNavbarTimer();
+  }
+
+  function reset(){
+    pause();
+    pomodoro.remaining = pomodoro.durations[pomodoro.mode];
+    updateDisplay();
+    updateNavbarTimer();
+  }
+
+  function toggle(show){
+    var modal = qs('pomodoro-modal');
+    if (!modal) return;
+    var shouldShow = typeof show === 'boolean' ? show : modal.classList.contains('hidden');
+    if (shouldShow){
+      modal.classList.remove('hidden');
+      modal.setAttribute('aria-hidden', 'false');
+      highlightMode();
+      updateDisplay();
+      try { if (window.Notification && Notification.permission === 'default') Notification.requestPermission(); } catch(e){}
+    } else {
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  window.togglePomodoro = toggle;
+  window.pomodoroSwitch = setMode;
+  window.pomodoroStart = start;
+  window.pomodoroPause = pause;
+  window.pomodoroReset = reset;
+  window.pomodoroEditTimer = pomodoroEditTimer;
+})();

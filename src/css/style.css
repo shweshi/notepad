@@ -61,6 +61,136 @@ body {
     border-radius: 10px;
 }
 
+.pomodoro-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+}
+
+.pomodoro-modal.hidden {
+    display: none !important;
+}
+
+.pomodoro-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+}
+
+.pomodoro-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    max-width: calc(100% - 32px);
+    background: var(--textarea-background-color);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.pomodoro-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: var(--background-color);
+}
+
+.pomodoro-title {
+    font-weight: bold;
+}
+
+.pomodoro-close {
+    appearance: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.pomodoro-modes {
+    display: flex;
+    gap: 6px;
+    padding: 10px 12px;
+}
+
+.pomodoro-mode {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: #f1eebd;
+    border: 1px solid rgba(0,0,0,0.06);
+    cursor: pointer;
+}
+
+.pomodoro-mode.active {
+    background: #eee8aa;
+    border-color: rgba(0,0,0,0.15);
+    font-weight: bold;
+}
+
+.pomodoro-timer {
+    font-size: 56px;
+    font-weight: 700;
+    text-align: center;
+    padding: 18px 0 6px;
+    color: #222;
+}
+
+.pomodoro-controls {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+}
+
+.pomodoro-btn {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #f6f4cc;
+    border: 1px solid rgba(0,0,0,0.08);
+    cursor: pointer;
+}
+
+.pomodoro-btn.primary {
+    background: #cec98d;
+    border-color: rgba(0,0,0,0.15);
+    font-weight: bold;
+}
+
+.dark-mode-topbar ~ .pomodoro-modal .pomodoro-panel {
+    background: #1e1e1e;
+    border-color: #333;
+}
+.dark-mode-topbar ~ .pomodoro-modal .pomodoro-header {
+    background: #222;
+}
+.dark-mode-topbar ~ .pomodoro-modal .pomodoro-timer,
+.dark-mode-topbar ~ .pomodoro-modal .pomodoro-title {
+    color: #ece5e5cc;
+}
+.dark-mode-topbar ~ .pomodoro-modal .pomodoro-mode {
+    background: #222;
+    color: #ece5e5cc;
+    border-color: #333;
+}
+.dark-mode-topbar ~ .pomodoro-modal .pomodoro-mode.active {
+    background: #121212;
+    border-color: #444;
+}
+.dark-mode-topbar ~ .pomodoro-modal .pomodoro-btn {
+    background: #222;
+    color: #ece5e5cc;
+    border-color: #333;
+}
+.dark-mode-topbar ~ .pomodoro-modal .pomodoro-btn.primary {
+    background: #121212;
+    border-color: #444;
+}
 .tab {
     width: 200px;
     min-width: 200px;
@@ -182,6 +312,27 @@ body {
     height: 24px;
     padding: 3px 5px;
     width: 28px;
+}
+
+.focus-timer {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    color: #444;
+    min-width: 44px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.dark-mode-navbar .focus-timer {
+    color: #ece5e5cc;
+}
+
+.focus-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    float: right;
 }
 
 .tools {
